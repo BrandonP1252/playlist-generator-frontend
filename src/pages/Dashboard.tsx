@@ -1,6 +1,5 @@
 import {useQuery} from "@tanstack/react-query";
-import {useContext} from "react";
-import {UserInfoContext} from "../context/UserContext.tsx";
+import { useEffect } from "react";
 import Playlist from "../components/Playlist.tsx";
 import type {PlaylistItemType} from "../types/PlaylistType.tsx";
 import "../css/playlist.css";
@@ -10,23 +9,34 @@ const Dashboard = () => {
 
     const navigate = useNavigate();
 
-    const userInfoContext = useContext(UserInfoContext);
-
-    if (!userInfoContext) {
-        throw new Error("UserContext not found");
-    }
-
-    const { userInfo } = userInfoContext;
+    useEffect(() => {
+        const params = new URLSearchParams(window.location.search);
+        const token = params.get("token");
+        if (token) {
+            localStorage.setItem("spotify_token", token);
+        }
+    }, []);
 
     const {data, isLoading, error} = useQuery({
         queryKey: ["playlistData"],
-        queryFn: () => fetch("http://127.0.0.1:5000/api/get-user-playlists").then(res => res.json()),
+        queryFn: () => fetch("https://playlistgeneratorv2.onrender.com/api/get-user-data", {
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + localStorage.getItem("spotify_token"),
+            }
+        }).then(res => res.json()),
         staleTime: 60000
     })
 
-    if (isLoading) return <p>Loading playlists...</p>
+    if (isLoading) return (
+            <div className="form-container">
+                <h2 className="loading-message" >Loading playlists...</h2>
+            </div>
+        )
 
     if (error) return 'Error: ' + error.message
+
+    const { userInfo, playlists } = data
 
     const handleClick = () => {
         navigate('/generate-playlist')
@@ -37,7 +47,7 @@ const Dashboard = () => {
             <h1>Welcome, {userInfo?.display_name ?? "Guest"}</h1>
             <h2>Your Playlists</h2>
             <div className="playlist-grid">
-                {data?.items?.map((playlist: PlaylistItemType, index: number) => (
+                {playlists?.items?.map((playlist: PlaylistItemType, index: number) => (
                     <div key={playlist.id}
                          className="playlist-item"
                          style={{ animationDelay: `${index * 100}ms` }}>

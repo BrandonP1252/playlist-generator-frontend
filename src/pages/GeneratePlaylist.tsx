@@ -13,7 +13,6 @@ const GeneratePlaylist = () => {
     const [fade, setFade] = useState(true);
     const navigate = useNavigate();
 
-
     // Cycle through loading messages
     useEffect(() => {
         const loadingMessages = [
@@ -57,10 +56,11 @@ const GeneratePlaylist = () => {
         }
 
         try {
-            const response = await fetch("http://127.0.0.1:5000/api/generate-playlist", {
+            const response = await fetch("https://playlistgeneratorv2.onrender.com/api/generate-playlist", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
+                    "Authorization": `Bearer ${localStorage.getItem("spotify_token")}`,
                 },
                 body: JSON.stringify({
                     prompt: prompt,
@@ -76,8 +76,6 @@ const GeneratePlaylist = () => {
                 return;
             }
 
-
-
             const data = await response.json();
             navigate("/result", {state: {playlist: data}})
 
@@ -87,7 +85,6 @@ const GeneratePlaylist = () => {
             setLoading(false);
         }
     }
-
 
     return (
         <div className="form-container">

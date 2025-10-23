@@ -14,10 +14,11 @@ const Result = () => {
     const handleRegenButton = async () => {
 
         try {
-            await fetch("http://127.0.0.1:5000/api/delete-playlist", {
+            await fetch("https://playlistgeneratorv2.onrender.com/api/delete-playlist", {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
+                    "Authorization": `Bearer ${localStorage.getItem("spotify_token")}`,
                 },
                 body: JSON.stringify({
                     playlist_id: playlist.id,
