@@ -120,7 +120,7 @@ const GeneratePlaylist = () => {
                         id="song_number"
                         name="song_number"
                         max="30"
-                        placeholder="Max songs per playlist: 50"
+                        placeholder="Max songs per playlist: 30"
                         required
                         value={songNumber}
                         onChange={(e) => setSongNumber(e.target.value)}
