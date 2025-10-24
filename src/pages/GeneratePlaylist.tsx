@@ -119,7 +119,7 @@ const GeneratePlaylist = () => {
                         type="number"
                         id="song_number"
                         name="song_number"
-                        max="50"
+                        max="30"
                         placeholder="Max songs per playlist: 50"
                         required
                         value={songNumber}
