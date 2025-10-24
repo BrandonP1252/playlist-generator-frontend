@@ -5,6 +5,16 @@ import {useQuery} from "@tanstack/react-query";
 
 const Welcome = () => {
 
+
+    const token : string|null = localStorage.getItem("spotify_token");
+    const userInfo = localStorage.getItem("user_info");
+    if (token) {
+        localStorage.removeItem("spotify_token")
+    }
+    if (userInfo) {
+        localStorage.removeItem("user_info");
+    }
+
     const [loginEndPoint, setLoginEndPoint] = useState("");
 
 
