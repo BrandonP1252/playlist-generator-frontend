@@ -103,7 +103,7 @@ const GeneratePlaylist = () => {
                         onChange={(e) => setPlaylistName(e.target.value)}
                     />
 
-                    <label htmlFor="prompt">Enter your prompt:</label>
+                    <label htmlFor="prompt">Describe your desired playlist:</label>
                     <input
                         type="text"
                         id="prompt"
