@@ -15,10 +15,10 @@ function App() {
       <QueryClientProvider client={queryClient}>
           <BrowserRouter>
                 <Routes>
-                    <Route path="/" element={<Welcome />}/>
                     <Route path="/dashboard" element={<Dashboard />} />
                     <Route path="/generate-playlist" element={<GeneratePlaylist />} />
                     <Route path="/result" element={<Result />} />
+                    <Route path="/" element={<Welcome />}/>
                 </Routes>
           </BrowserRouter>
       </QueryClientProvider>
